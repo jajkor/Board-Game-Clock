@@ -10,7 +10,7 @@ const uint8_t whiteButton = 7;
 
 uint8_t index = 0b00;
 
-LiquidCrystal lcd(13, 14, 9, 10, 11, 12);
+LiquidCrystal lcd(12, 13, 8, 9, 10, 11);
 
 void setup() {  
   lcd.begin(16, 2);
@@ -44,8 +44,17 @@ void increment(uint8_t *index) {
 }
 
 char* prettyprint(unsigned long milliseconds) {
+  unsigned long hour = milliseconds / 3600000;
+  milliseconds = milliseconds - 3600000 * hour;
+  
+  unsigned long minute = milliseconds / 60000;
+  milliseconds = milliseconds - 60000 * minute;
+  
+  unsigned long second = milliseconds / 1000;
+  milliseconds = milliseconds - 1000 * second;
+  
   char* time = (char*)malloc(20 * sizeof(char));
-  sprintf(time, "%2lu:%2lu:%2lu:%2lu", milliseconds / 360000, milliseconds / 60000, milliseconds / 1000, milliseconds % 60);
+  sprintf(time, "%2lu:%2lu:%2lu:%2lu", hour, minute, second, milliseconds);
   return time;
 }
 
